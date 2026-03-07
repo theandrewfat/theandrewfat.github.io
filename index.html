@@ -239,6 +239,15 @@
 
 
 
+    /* ── CONFETTI ── */
+    .cf { position:fixed; top:-20px; pointer-events:none; z-index:999;
+      animation: cfFall var(--cfd) linear var(--cfde) forwards;
+      border-radius: var(--cfr); }
+    @keyframes cfFall {
+      0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity:1; }
+      100% { transform: translateY(110vh) translateX(var(--cfx)) rotate(720deg); opacity:0; }
+    }
+
     @keyframes popUp {
       from { opacity:0; transform:translateY(20px) scale(.95); }
       to   { opacity:1; transform:translateY(0) scale(1); }
@@ -364,10 +373,11 @@ function doReveal() {
   // 1. Start 4s spin
   core.classList.add('spin');
 
-  // 2. Halfway: swap image
+  // 2. Swap image at 3800ms (last spin turn) + confetti
   setTimeout(() => {
     document.getElementById('orbImg').src = './bb_b.png';
-  }, 2000);
+    boom();
+  }, 3800);
 
   // 3. After spin: reveal
   setTimeout(() => {
@@ -375,6 +385,18 @@ function doReveal() {
     hero.textContent = '¡Soy un niño!';
     document.getElementById('bottomSlot').style.visibility = 'hidden';
   }, 4000);
+}
+
+function boom() {
+  const palette = ['#FF6B6B','#FFD166','#06D6A0','#3A86FF','#9B72CF','#FF9F1C','#4ECDC4','#ffffff','#74b3ff','#ffd0e8','#b8ffd9'];
+  for (let i = 0; i < 280; i++) {
+    const el = document.createElement('div');
+    el.className = 'cf';
+    const w = 5 + Math.random()*10, h = 5 + Math.random()*18, r = Math.random();
+    el.style.cssText = `left:${Math.random()*100}vw;width:${w}px;height:${h}px;background:${palette[~~(Math.random()*palette.length)]};--cfd:${2+Math.random()*3}s;--cfde:${Math.random()*1.2}s;--cfx:${(Math.random()-.5)*360}px;--cfr:${r>.6?'50%':r>.3?'3px':'0'};`;
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
 }
 
 
