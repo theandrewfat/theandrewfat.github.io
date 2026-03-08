@@ -2,7 +2,8 @@
 window.BUBBLE_MESSAGES = [
   '👋 ¡¡HOLA A TOD@S!! 👋',
   '😮 Soy nuevo por aquí... ¡cuánta gente! 😮',
-  'Dejad que me presente, mi nombre es... 🥁👀',
+  'Dejad que me presente',
+  'Mi nombre es... 🥁👀',
   '👶 Unai ✨',
   '¡Hola mamá y papá! Preparaos... ❤️🍼',
   '¡Hola yayos! Id comprando cruasanes de choco🥐🥐',
@@ -11,7 +12,7 @@ window.BUBBLE_MESSAGES = [
   '¡Hola tía María! ¿Nos hacemos un selfie? 📸💃',
   '¡Hola tía María José! Prepárate, ¡que vengo con energía! ⚡🏃‍♂️',
   'Tú eres... ¡la famosa prima Sara! Holiii 👋🎀',
-  '¡Hola tío David! ¿Podré pasear a Perdigón y Tolly?🐕‍🦺🐕',
+  '¡Hola tío David! ¿Podré pasear a Perdigón y Tolly? 🐕‍🦺🐕',
   '¡Primo Danieeeel! Dame tu trono de Marqués ¡JA! 👑😈',
   'Pues sí... tengo barba... será la genética... 🤣🧔🏻',
   '¡Hola prima Ainhoa! Qué ganas de verte 😊💖',
