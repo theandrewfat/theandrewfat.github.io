@@ -6,7 +6,7 @@ window.BUBBLE_MESSAGES = [
   'Mi nombre es... 🥁👀',
   '👶🏻 Unai ✨',
   '¡Hola mamá y papá! Preparaos... ❤️🍼',
-  '¡Hola yayos! Id comprando cruasanes de choco🥐🥐',
+  '¡Hola yayos! Id comprando cruasanes de choco 🥐🥐',
   '¡Hola abuelos! Qué ganas de veros 🧸💙',
   'Un momento... ¡¡¿TENGO BARBA?!! ¿Ya? 🤔🧔🏻',
   '¡Hola tía María! ¿Nos hacemos un selfie? 📸💃',
