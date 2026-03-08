@@ -1,7 +1,7 @@
 // Agrega aquí todos los mensajes que quieras, uno por línea
 window.BUBBLE_MESSAGES = [
-  '¡¡HOLA A TOD@S!!'👋👋,
-  '¿Queréis saber cómo me llamo?🥁👀',
+  '¡¡HOLA A TOD@S!! 👋👋',
+  '¿Queréis saber cómo me llamo? 🥁👀',
   '¿Sí? Pues...3️⃣..2️⃣..1️⃣..',
   '¡Me llamo... UNAI! 👶✨',
   '¡Hola mamá y papá! Preparaos... ❤️🍼',
@@ -20,5 +20,5 @@ window.BUBBLE_MESSAGES = [
   '¡Hola amig@s de los papis! Id enfriando las cañas 🍻🤘',
   '¡Uff! Sois muchos... ¡qué lío! 🤯❤️',
   '¡Me voy! Ya iré casa por casa a merendar 🥪🥛👋',
-  '!NOS VEMOS PRONTO FAMILIA!👋👋'
+  '!NOS VEMOS PRONTO FAMILIA!👋👋',
 ];
