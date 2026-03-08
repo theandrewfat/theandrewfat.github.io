@@ -259,7 +259,7 @@
       border-radius: 1.2rem;
       padding: .55rem 1rem;
       font-family: var(--sans);
-      font-size: clamp(.7rem, 2.5vw, .85rem);
+      font-size: clamp(.9rem, 3.5vw, 1.1rem);
       font-weight: 700;
       color: var(--blue);
       white-space: nowrap;
@@ -453,10 +453,15 @@ function doReveal() {
     });
   }, 7000);
 
-  // 5. Confetti + bubbles start after reveal
+  // 5. Confetti: 3 veces con 5s de intervalo
   setTimeout(() => {
     boom();
-    setInterval(() => boom(), 5000);
+    let count = 1;
+    const cfInterval = setInterval(() => {
+      boom();
+      count++;
+      if (count >= 3) clearInterval(cfInterval);
+    }, 5000);
     setTimeout(() => startBubbles(), 1500);
   }, 7500);
 }
@@ -480,14 +485,15 @@ const BUBBLE_MESSAGES = (typeof window !== 'undefined' && window.BUBBLE_MESSAGES
 let bubbleIndex = 0;
 
 function spawnBubble() {
-  const msgs = (window.BUBBLE_MESSAGES && window.BUBBLE_MESSAGES.length) ? window.BUBBLE_MESSAGES : BUBBLE_MESSAGES;
+  const msgs = (window.BUBBLE_MESSAGES && window.BUBBLE_MESSAGES.length) ? window.BUBBLE_MESSAGES : ['¡Hola prima Sara!', '¡Hola tía María!'];
   const container = document.getElementById('bubbleContainer');
   const msg = msgs[bubbleIndex % msgs.length];
-  const lifeMs = 2500;
+  const lifeMs = 4000;
 
   const el = document.createElement('div');
   el.className = 'bubble';
-  el.textContent = msg;
+  // Bold support: **text** → <strong>text</strong>
+  el.innerHTML = msg.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   el.style.setProperty('--blife', lifeMs + 'ms');
   container.appendChild(el);
   setTimeout(() => el.remove(), lifeMs + 400);
@@ -496,7 +502,7 @@ function spawnBubble() {
 
 function startBubbles() {
   spawnBubble();
-  setInterval(spawnBubble, 3500);
+  setInterval(spawnBubble, 5000); // must be > lifeMs + fade
 }
 
 // ── MUSIC ──
