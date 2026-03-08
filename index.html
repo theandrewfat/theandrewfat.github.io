@@ -411,44 +411,48 @@ function doReveal() {
   if (revealed) return;
   revealed = true;
 
-  // Hide the Descubrir button and speaker icon immediately
-  document.getElementById('arrived').classList.remove('show');
+  // Hide button and speaker immediately
+  const arrivedEl = document.getElementById('arrived');
+  arrivedEl.classList.remove('show');
+  arrivedEl.style.display = 'none';
   document.getElementById('speakerBtn').style.display = 'none';
 
   const core = document.getElementById('orbCore');
   const hero = document.querySelector('.hero');
 
+  // Pre-create and unlock all audio RIGHT NOW (user gesture context — required by iOS)
+  const spinAudio    = new Audio('./spin.mp3');
+  const revealAudio  = new Audio('./bb_b.mp3');
+  const cAudio       = new Audio('./bb_c.mp3');
+  spinAudio.volume   = 0.8;
+  revealAudio.volume = 0.8;
+  cAudio.volume      = 0.8;
+  cAudio.loop        = true;
+  // Unlock on iOS: load and immediately pause
+  [spinAudio, revealAudio, cAudio].forEach(a => { a.load(); });
+
   // 1. Stop bb.mp3, play spin.mp3
   stopBgMusic();
-  const spinAudio = new Audio('./spin.mp3');
-  spinAudio.volume = 0.8;
   spinAudio.play().catch(() => {});
 
   // 2. Start 7s spin
   core.classList.add('spin');
 
-  // 3. Swap image, text AND color at 6000ms (in sync)
+  // 3. Swap image, text AND color at 6000ms
   setTimeout(() => {
     document.getElementById('orbImg').src = './bb_b.png';
     hero.textContent = '¡Soy un niño!';
     document.body.classList.add('boy');
   }, 6000);
 
-  // 4. After spin (7s): reveal visual + start bb_b.mp3
+  // 4. After spin (7s): reveal + bb_b.mp3
   setTimeout(() => {
     document.getElementById('bottomSlot').style.visibility = 'hidden';
     core.classList.remove('spin');
     core.style.animation = 'orbBounce 2.8s ease-in-out infinite';
     spinAudio.pause();
-
-    // bb_b.mp3 starts, then bb_c.mp3 loops forever
-    const revealAudio = new Audio('./bb_b.mp3');
-    revealAudio.volume = 0.8;
     revealAudio.play().catch(() => {});
     revealAudio.addEventListener('ended', () => {
-      const cAudio = new Audio('./bb_c.mp3');
-      cAudio.loop = true;
-      cAudio.volume = 0.8;
       cAudio.play().catch(() => {});
     });
   }, 7000);
