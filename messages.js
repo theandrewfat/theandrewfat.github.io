@@ -8,7 +8,7 @@ window.BUBBLE_MESSAGES = [
   '¡Hola yayos! Id comprando cruasanes de choco🥐🥐',
   '¡Hola abuelos! Qué ganas de veros 🧸💙',
   'Un momento... ¡¡¿TENGO BARBA?!! ¿Ya? 🤔🧔🏻',
-  '¡Hola tía María! ¿Hacemos un selfie? 📸💃',
+  '¡Hola tía María! ¿Nos hacemos un selfie? 📸💃',
   '¡Hola tía María José! Prepárate, ¡que vengo con energía! ⚡🏃‍♂️',
   'Tú eres... ¡la famosa prima Sara! Holiii 👋🎀',
   '¡Hola tío David! ¿Podré pasear a Perdigón y Tolly?🐕‍🦺🐕',
