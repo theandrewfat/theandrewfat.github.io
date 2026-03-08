@@ -251,6 +251,49 @@
       50%      { opacity: .4; transform: scale(.88); }
     }
 
+    /* ── BOCADILLOS ── */
+    .bubble {
+      position: absolute;
+      background: white;
+      border: 2px solid var(--blue);
+      border-radius: 1.2rem;
+      padding: .55rem 1rem;
+      font-family: var(--sans);
+      font-size: clamp(.7rem, 2.5vw, .85rem);
+      font-weight: 700;
+      color: var(--blue);
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 0 4px 16px rgba(58,134,255,.18);
+      z-index: 10;
+      animation: bubblePop .35s cubic-bezier(.34,1.56,.64,1) forwards,
+                 bubbleFade .4s ease-in var(--blife) forwards;
+    }
+    .bubble { position: absolute; }
+    .bubble.top::after {
+      bottom: auto; top: -8px; left: 1.5rem;
+      border-right: none; border-bottom: none;
+      border-left: 2px solid var(--blue);
+      border-top: 2px solid var(--blue);
+      border-radius: 3px 0 0 0;
+      transform: rotate(45deg);
+    }
+    .bubble.right::after {
+      bottom: auto; top: 1rem; left: auto; right: -8px;
+      border-right: 2px solid var(--blue); border-bottom: none;
+      border-top: 2px solid var(--blue); border-left: none;
+      border-radius: 0 3px 0 0;
+      transform: rotate(45deg);
+    }
+    @keyframes bubblePop {
+      from { opacity:0; transform: scale(.5); }
+      to   { opacity:1; transform: scale(1); }
+    }
+    @keyframes bubbleFade {
+      from { opacity:1; transform: scale(1); }
+      to   { opacity:0; transform: scale(.8) translateY(-8px); }
+    }
+
     /* ── CONFETTI ── */
     .cf { position:fixed; top:-20px; pointer-events:none; z-index:999;
       animation: cfFall var(--cfd) linear var(--cfde) forwards;
@@ -299,6 +342,7 @@
         </div>
         <span class="orb-symbol orb-reveal-sym" id="orbSymbol" style="display:none"></span>
       </div>
+      <div id="bubbleContainer"></div>
     </div>
 
   </div>
@@ -398,15 +442,15 @@ function doReveal() {
   // 2. Start 7s spin
   core.classList.add('spin');
 
-  // 3. Swap image AND text at 6000ms (near end of spin)
+  // 3. Swap image, text AND color at 6000ms (in sync)
   setTimeout(() => {
     document.getElementById('orbImg').src = './bb_b.png';
     hero.textContent = '¡Soy un niño!';
+    document.body.classList.add('boy');
   }, 6000);
 
   // 4. After spin (7s): reveal visual + start bb_b.mp3
   setTimeout(() => {
-    document.body.classList.add('boy');
     document.getElementById('bottomSlot').style.visibility = 'hidden';
     core.classList.remove('spin');
     core.style.animation = 'orbBounce 2.8s ease-in-out infinite';
@@ -424,10 +468,11 @@ function doReveal() {
     });
   }, 7000);
 
-  // 5. Confetti starts 500ms after reveal, then every 1s indefinitely
+  // 5. Confetti + bubbles start after reveal
   setTimeout(() => {
     boom();
     setInterval(() => boom(), 5000);
+    setTimeout(() => startBubbles(), 1500);
   }, 7500);
 }
 
@@ -441,6 +486,48 @@ function boom() {
     document.body.appendChild(el);
     el.addEventListener('animationend', () => el.remove());
   }
+}
+
+// ── BOCADILLOS ──
+const BUBBLE_MESSAGES = [
+  '¡Hola prima Sara!',
+  '¡Hola tía María!',
+];
+
+const BUBBLE_POSITIONS = [
+  { top: '8%',  left: '102%', cls: 'right' },
+  { top: '22%', left: '102%', cls: 'right' },
+  { top: '36%', left: '102%', cls: 'right' },
+];
+
+let bubbleIndex = 0;
+let bubblePosIndex = 0;
+
+function spawnBubble() {
+  const container = document.getElementById('bubbleContainer');
+  const msg = BUBBLE_MESSAGES[bubbleIndex % BUBBLE_MESSAGES.length];
+  const pos = BUBBLE_POSITIONS[bubblePosIndex % BUBBLE_POSITIONS.length];
+  const lifeMs = 2200;
+
+  const el = document.createElement('div');
+  el.className = 'bubble ' + pos.cls;
+  el.textContent = msg;
+  el.style.setProperty('--blife', lifeMs + 'ms');
+  if (pos.top)    el.style.top    = pos.top;
+  if (pos.bottom) el.style.bottom = pos.bottom;
+  if (pos.left)   el.style.left   = pos.left;
+  if (pos.right)  el.style.right  = pos.right;
+
+  container.appendChild(el);
+  setTimeout(() => el.remove(), lifeMs + 400);
+
+  bubbleIndex++;
+  bubblePosIndex++;
+}
+
+function startBubbles() {
+  spawnBubble();
+  setInterval(spawnBubble, 3500);
 }
 
 // ── MUSIC ──
