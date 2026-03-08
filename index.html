@@ -132,7 +132,7 @@
       transition: border-color .6s, box-shadow .6s;
     }
     body.boy .orb-core {
-      border-color: var(--blue); animation: none;
+      border-color: var(--blue);
       box-shadow: 0 4px 0 rgba(0,0,0,.06), 0 8px 40px rgba(58,134,255,.3);
     }
     @keyframes orbBounce {
@@ -243,6 +243,14 @@
 
 
 
+    /* ── SPEAKER BUTTON ── */
+    #speakerBtn { transition: opacity .2s; }
+    #speakerBtn.muted { animation: speakerPulse 1.2s ease-in-out infinite; }
+    @keyframes speakerPulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .4; transform: scale(.88); }
+    }
+
     /* ── CONFETTI ── */
     .cf { position:fixed; top:-20px; pointer-events:none; z-index:999;
       animation: cfFall var(--cfd) linear var(--cfde) forwards;
@@ -259,6 +267,21 @@
   </style>
 </head>
 <body>
+
+<!-- SPEAKER ICON -->
+<div id="speakerBtn" onclick="toggleMusic()" title="Activar música" class="muted" style="
+  position:fixed; top:1.2rem; right:1.2rem; z-index:300;
+  width:2.2rem; height:2.2rem;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  user-select:none;">
+  <svg id="speakerIcon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" stroke="#bba898"/>
+    <path id="speakerWave1" d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="#bba898" style="display:none"/>
+    <path id="speakerWave2" d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="#bba898" style="display:none"/>
+    <line id="speakerMuteLine" x1="1" y1="1" x2="23" y2="23" stroke="#e53e3e" stroke-width="2"/>
+  </svg>
+</div>
 
 <div id="pg">
 
@@ -303,7 +326,7 @@
 </div>
 
 <script>
-let targetDate = new Date('2026-03-07T15:15:00');
+let targetDate = new Date('2026-03-07T14:51:00');
 let ticker  = null;
 let revealed = false;
 
@@ -365,20 +388,32 @@ function doReveal() {
   const core = document.getElementById('orbCore');
   const hero = document.querySelector('.hero');
 
-  // 1. Start 4s spin
+  // 1. Stop bb.mp3, play spin.mp3
+  stopBgMusic();
+  const spinAudio = new Audio('./spin.mp3');
+  spinAudio.volume = 0.8;
+  spinAudio.play().catch(() => {});
+
+  // 2. Start 4s spin
   core.classList.add('spin');
 
-  // 2. Swap image at 3800ms (last spin turn) + confetti
+  // 3. Swap image at 3200ms + confetti
   setTimeout(() => {
     document.getElementById('orbImg').src = './bb_b.png';
     boom();
   }, 3200);
 
-  // 3. After spin: reveal
+  // 4. After spin: reveal + play bb_b.mp3
   setTimeout(() => {
     document.body.classList.add('boy');
     hero.textContent = '¡Soy un niño!';
     document.getElementById('bottomSlot').style.visibility = 'hidden';
+    core.classList.remove('spin');
+    core.style.animation = 'orbBounce 2.8s ease-in-out infinite';
+    spinAudio.pause();
+    const revealAudio = new Audio('./bb_b.mp3');
+    revealAudio.volume = 0.8;
+    revealAudio.play().catch(() => {});
   }, 4000);
 }
 
@@ -394,7 +429,55 @@ function boom() {
   }
 }
 
+// ── MUSIC ──
+let musicOn = false;
+let audio = null;
 
+function initAudio() {
+  if (audio) return;
+  audio = new Audio('./bb.mp3');
+  audio.loop = true;
+  audio.volume = 0.5;
+}
+
+function toggleMusic() {
+  initAudio();
+  if (musicOn) {
+    audio.pause();
+    musicOn = false;
+  } else {
+    audio.play().catch(() => {});
+    musicOn = true;
+  }
+  updateSpeakerIcon();
+}
+
+function updateSpeakerIcon() {
+  const btn  = document.getElementById('speakerBtn');
+  const w1   = document.getElementById('speakerWave1');
+  const w2   = document.getElementById('speakerWave2');
+  const mute = document.getElementById('speakerMuteLine');
+  if (musicOn) {
+    w1.style.display = ''; w2.style.display = '';
+    mute.style.display = 'none';
+    btn.classList.remove('muted');
+    btn.style.opacity = '.7';
+  } else {
+    w1.style.display = 'none'; w2.style.display = 'none';
+    mute.style.display = '';
+    btn.classList.add('muted');
+    btn.style.opacity = '';
+  }
+}
+
+function stopBgMusic() {
+  if (audio) { audio.pause(); audio.currentTime = 0; }
+  musicOn = false;
+  updateSpeakerIcon();
+}
+
+// Inicializar audio al cargar (sin autoplay — esperar al click del altavoz)
+window.addEventListener('load', () => { initAudio(); });
 </script>
 </body>
 </html>
