@@ -2,9 +2,9 @@
 window.BUBBLE_MESSAGES = [
   '👋 ¡¡HOLA A TOD@S!! 👋',
   '😮 Soy nuevo por aquí... ¡cuánta gente! 😮',
-  'Dejad que me presente',
+  'Dejad que me presente 🎤🌟',
   'Mi nombre es... 🥁👀',
-  '👶 Unai ✨',
+  '👶🏻 Unai ✨',
   '¡Hola mamá y papá! Preparaos... ❤️🍼',
   '¡Hola yayos! Id comprando cruasanes de choco🥐🥐',
   '¡Hola abuelos! Qué ganas de veros 🧸💙',
