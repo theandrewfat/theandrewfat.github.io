@@ -20,5 +20,5 @@ window.BUBBLE_MESSAGES = [
   '¡Hola amig@s de los papis! Id enfriando las cervezas 🍻🤘',
   '¡Uff! Sois muchos... ¡qué lío! 🤯❤️',
   '¡Me voy! Ya iré casa por casa a merendar 🥪🥛👋',
-  '!NOS VEMOS PRONTO FAMILIA!👋👋',
+  '¡NOS VEMOS PRONTO FAMILIA!👋👋',
 ];
